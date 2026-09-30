@@ -5,7 +5,7 @@ from typing import Any
 
 
 class LLM:
-  """spec(issue, file_tree) / implement(worktree, spec) / write_tests(worktree, spec)."""
+  """The three stage seams: spec, implement, write_tests."""
 
   def __init__(self, api_key: str, model: str):
     self.api_key = api_key

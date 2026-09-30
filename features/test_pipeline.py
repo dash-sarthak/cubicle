@@ -1,4 +1,4 @@
-"""BDD steps for the core loop. Pipeline scenario is intentionally RED (see PLAN.md)."""
+"""BDD steps for the core loop. Pipeline scenario: intentionally RED."""
 
 from pathlib import Path
 from typing import Any
@@ -11,13 +11,15 @@ from cubicle import config, pipeline
 scenarios("pipeline.feature")
 
 
-# --- Scenario: Configuration loads from the environment --------------------
-
-
-@given("a .env with GITHUB_PAT, OPENAI_API_KEY and CUBICLE_MODEL", target_fixture="env_file")
+@given(
+  "a .env with GITHUB_PAT, OPENAI_API_KEY and CUBICLE_MODEL",
+  target_fixture="env_file",
+)
 def env_file(tmp_path: Path) -> Path:
   env = tmp_path / ".env"
-  env.write_text("GITHUB_PAT=ghp_test\nOPENAI_API_KEY=sk-test\nCUBICLE_MODEL=gpt-test\n")
+  env.write_text(
+    "GITHUB_PAT=ghp_test\nOPENAI_API_KEY=sk-test\nCUBICLE_MODEL=gpt-test\n"
+  )
   return env
 
 
@@ -31,9 +33,6 @@ def config_exposes_values(loaded_config: config.Config) -> None:
   assert loaded_config.github_pat == "ghp_test"
   assert loaded_config.openai_api_key == "sk-test"
   assert loaded_config.model == "gpt-test"
-
-
-# --- Scenario: An issue becomes a gated PR ---------------------------------
 
 
 @given("a target repo with issue 42", target_fixture="target_repo")
@@ -63,5 +62,5 @@ def branch_pushed(fakes: dict[str, Any]) -> None:
 def pr_body_has_spec_and_tests(fakes: dict[str, Any]) -> None:
   github: FakeGitHub = fakes["github"]
   pr = github.prs[0]
-  assert "Print a greeting" in pr["body"]
-  assert "1 passed" in pr["body"]
+  assert "Print a greeting" in pr.body
+  assert "1 passed" in pr.body

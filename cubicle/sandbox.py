@@ -1,4 +1,4 @@
-"""Docker sandbox — the only place agent-generated code executes (trust boundary)."""
+"""Docker sandbox: the only place agent code executes (trust boundary)."""
 
 from pathlib import Path
 

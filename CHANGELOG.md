@@ -7,6 +7,8 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Changed
 
+- Conventions pass: pydantic everywhere (seam models `Issue`/`Spec`/`PRRecord` in `cubicle/models.py`; `Config` with env aliases + blank rejection), 80-column lines, banner comments removed, never-nester rule recorded in AGENT.md.
+
 - Type gate: mypy 2.3 strict (`make type`), hints everywhere including BDD fakes/steps; ty retained for editor LSP only. Dropped speculative `agents.py` stub — stage functions land with build step 2.
 
 ### Added

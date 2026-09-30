@@ -1,4 +1,4 @@
-"""`cubicle run --repo owner/name --issue 42` -> gated PR. Wiring: build order step 1."""
+"""`cubicle run --repo owner/name --issue 42` -> gated PR."""
 
 import argparse
 

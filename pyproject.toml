@@ -5,6 +5,7 @@ requires-python = ">=3.12"
 dependencies = [
     "httpx>=0.28.1",
     "openai>=3.22.1",
+    "pydantic>=2.13.5",
     "python-dotenv>=1.2.3",
 ]
 
@@ -29,7 +30,7 @@ module-root = ""
 
 [tool.ruff]
 indent-width = 2
-line-length = 100
+line-length = 80
 
 [tool.mypy]
 strict = true

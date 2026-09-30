@@ -78,7 +78,7 @@ Dashboard, founder view, depth toggle, RBAC UI, multi-tenancy, billing, reportin
 - **Sandbox**: one `docker run` per pipeline execution; no network except the package registry.
 - **Provider**: OpenAI only in v0; multi-provider BYOK waits for a second customer.
 - **BDD framework**: pytest-bdd 9, over behave — one runner for unit + BDD, fixture `target_fixture` DI for fake LLM/GitHub/sandbox, active pytest-dev maintenance (v9.0.0). behave would fork the toolchain into a second runner with no parallelism story. Paradigm: BDD → tests → code; no code without a red scenario.
-- **Tooling**: ruff (format + lint, 2-space indent), mypy strict as the type gate (`make type`); ty stays installed for editor LSP only. Makefile gates (`make check` = lint + type + test). SQLite reserved for when state outgrows files — not before.
+- **Tooling**: ruff (format + lint, 2-space indent, 80 cols), mypy strict as the type gate (`make type`); ty stays installed for editor LSP only. Makefile gates (`make check` = lint + type + test). SQLite reserved for when state outgrows files — not before.
 
 Config shape: `.env` (GITHUB_PAT, OPENAI_API_KEY) + repo/target arguments on the CLI.
 
