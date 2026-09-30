@@ -5,9 +5,13 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Changed
+
+- Type gate: mypy 2.3 strict (`make type`), hints everywhere including BDD fakes/steps; ty retained for editor LSP only. Dropped speculative `agents.py` stub — stage functions land with build step 2.
+
 ### Added
 
-- Project scaffold: uv-managed `cubicle` package with module stubs per PLAN.md (cli, config, github, llm, sandbox, agents, pipeline).
+- Project scaffold: uv-managed `cubicle` package with module stubs per PLAN.md (cli, config, github, llm, sandbox, pipeline).
 - BDD harness (pytest-bdd 9): config scenario green; core-loop scenario red at `pipeline.run` as the intent test for build order step 2.
 - Tooling gates: ruff format/lint (2-space indent), ty type check, Makefile (`make check`), `.env.example`, `.gitignore`.
 

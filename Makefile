@@ -11,7 +11,7 @@ lint:
 	uv run ruff check .
 
 type:
-	uv run ty check .
+	uv run mypy cubicle features
 
 test:
 	uv run pytest -q

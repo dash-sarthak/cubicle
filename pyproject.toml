@@ -13,6 +13,7 @@ cubicle = "cubicle.cli:main"
 
 [dependency-groups]
 dev = [
+    "mypy>=2.3.1",
     "pytest>=9.1.1",
     "pytest-bdd>=9.0.0",
     "ruff>=0.16.9",
@@ -29,6 +30,11 @@ module-root = ""
 [tool.ruff]
 indent-width = 2
 line-length = 100
+
+[tool.mypy]
+strict = true
+python_version = "3.12"
+mypy_path = "features"
 
 [tool.ruff.format]
 quote-style = "double"

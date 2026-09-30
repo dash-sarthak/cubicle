@@ -35,14 +35,15 @@ Pipeline stages:
 
 **Trust boundary (hard rule):** the host never executes agent-generated code. Implementation runs through file tools only; execution happens exclusively inside the Docker sandbox. This is the seed of the RBAC thesis.
 
-Module layout (~6 files, flat package `cubicle/`):
+Module layout (5 files, flat package `cubicle/`):
 
 - `cli.py` — arg parsing, entry point
 - `config.py` — `.env` loader (GITHUB_PAT, OPENAI_API_KEY, CUBICLE_MODEL)
 - `github.py` — issue fetch, PR creation (httpx); git ops via git CLI
 - `llm.py` — OpenAI wrapper: tool loop, structured output, token accounting
 - `sandbox.py` — docker run wrapper: exit code + captured output
-- `agents.py` — the three stage functions (spec / implement / test), prompts included
+
+Stage functions (spec / implement / test) get written into `llm.py`/`pipeline.py` at build step 2, wherever they actually land — no speculative agents module.
 
 Guards: tool loop capped (max ~30 iterations), token spend logged per run, any stage crash exits non-zero with the stage name — v0 resume semantics are "re-run".
 
@@ -77,7 +78,7 @@ Dashboard, founder view, depth toggle, RBAC UI, multi-tenancy, billing, reportin
 - **Sandbox**: one `docker run` per pipeline execution; no network except the package registry.
 - **Provider**: OpenAI only in v0; multi-provider BYOK waits for a second customer.
 - **BDD framework**: pytest-bdd 9, over behave — one runner for unit + BDD, fixture `target_fixture` DI for fake LLM/GitHub/sandbox, active pytest-dev maintenance (v9.0.0). behave would fork the toolchain into a second runner with no parallelism story. Paradigm: BDD → tests → code; no code without a red scenario.
-- **Tooling**: ruff (format + lint, 2-space indent), ty (type check), Makefile gates (`make check` = lint + type + test). SQLite reserved for when state outgrows files — not before.
+- **Tooling**: ruff (format + lint, 2-space indent), mypy strict as the type gate (`make type`); ty stays installed for editor LSP only. Makefile gates (`make check` = lint + type + test). SQLite reserved for when state outgrows files — not before.
 
 Config shape: `.env` (GITHUB_PAT, OPENAI_API_KEY) + repo/target arguments on the CLI.
 
