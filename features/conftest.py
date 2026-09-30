@@ -1,7 +1,7 @@
-"""Fakes and fixtures for BDD scenarios.
+"""Fakes standing in for the GitHub and OpenAI services during BDD.
 
-Fakes share the seam shapes from cubicle.models; `_`-prefixed params
-exist for signature parity with the real services and are ignored.
+They use the same data shapes as the real services (cubicle.models).
+`_`-prefixed params match the real signatures and are ignored.
 """
 
 from pathlib import Path

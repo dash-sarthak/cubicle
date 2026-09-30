@@ -16,7 +16,8 @@ Cubicle — an agent orchestration platform (AMS). Teams bring LLM keys; Cubicle
 
 ## Conventions
 
-- Data shapes are pydantic models; `cubicle/models.py` owns the seam shapes shared by real services and fakes. Validate at trust boundaries with pydantic, not hand-rolled checks.
+- Data shapes are pydantic models; `cubicle/models.py` owns the shapes shared by real services and their test fakes. Validate external input with pydantic where it enters the program, not with hand-rolled checks.
+- Names and docstrings say exactly what a thing does, at its own level of abstraction. No jargon: a module that loads keys says it loads keys.
 - Configuration comes from a `.env` file (BYOK); see `.env.example`.
 - No banner/section comments (`# --- foo ---`). Comment only where the code cannot explain itself; docstrings for public shapes are fine.
 - 80-character lines.

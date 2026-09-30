@@ -1,4 +1,5 @@
-"""Configuration loaded from a .env file — the BYOK seam."""
+"""Configuration loaded from a team's .env file: their own GitHub
+and OpenAI keys plus model choice."""
 
 from pathlib import Path
 

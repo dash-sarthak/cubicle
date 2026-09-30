@@ -1,4 +1,6 @@
-"""Seam shapes shared by real services and their fakes."""
+"""Data shapes the pipeline passes around: an Issue fetched from
+GitHub, a Spec written for the implementer, a PRRecord describing
+the pull request the ship stage opens."""
 
 from pydantic import BaseModel
 

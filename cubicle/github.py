@@ -1,4 +1,5 @@
-"""GitHub REST (PAT) + git CLI operations. Build order step 1."""
+"""Fetch issues and open PRs via GitHub REST (PAT auth); clone and
+push via the git CLI. Build order step 1."""
 
 
 class GitHubClient:
