@@ -7,6 +7,8 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Changed
 
+- README converted from Org to Markdown; status section now states the build state (#6).
+
 - Conventions pass: pydantic everywhere (shared models `Issue`/`Spec`/`PRRecord` in `cubicle/models.py`; `Config` with env aliases + blank rejection), 80-column lines, banner comments removed, never-nester rule recorded in AGENT.md.
 - Docstrings rewritten to say what each module, class, and function does in plain words; jargon ("seam") purged and the plain-naming rule recorded in AGENT.md.
 

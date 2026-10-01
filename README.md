@@ -36,8 +36,8 @@ RBAC makes the tiers enforceable. Gate throughput — not code generation — is
 
 Closer to the codebase: less access, less reasoning, more determinism.
 
-| role                 | focus                         | build priority |
-|----------------------+-------------------------------+----------------|
+| Role                 | Focus                         | Build priority |
+| -------------------- | ----------------------------- | -------------- |
 | project-manager      | specs; bad specs waste PRs    | high           |
 | senior-developer     | pre-review; keeps gates cheap | high           |
 | developer            | implementation                | high           |
@@ -58,4 +58,4 @@ Further sub-divisions (frontend-developer, android-developer, etc.) are planned.
 
 ## Status
 
-Pre-code. Spec phase.
+Building. Core loop in progress — issue fetch shipped behind gated CI; spec, implement, test, and ship stages are next. The living plan is `PLAN.md`; operational procedures are `RUNBOOK.md`.
