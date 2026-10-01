@@ -34,14 +34,17 @@ dogfooding (build order step 5).
 Rules in `AGENTS.md` → Workflow. Sequence:
 
 1. Multi-commit work → GitHub issue first (states the outcome, never the
-   code change). One-commit task → skip this step.
+   code change), then comment the solution template on it — fill
+   `.github/issue-solution-template.md`, every header kept, N/A where not
+   required. One-commit task → skip this step.
 2. `git checkout -b <type>/<issue-number-or-slug>` — type is `feature`,
    `bug`, `improvement`, or `infra`.
 3. Write the failing test or scenario (red first — PLAN.md paradigm).
 4. Change until `make check` matches the recorded baseline or better.
 5. Commit: `gh-<issue_number>: <what changed>`; issueless:
    `<type>: <what changed>`.
-6. `git push -u origin <branch>` and open a PR.
+6. `git push -u origin <branch>`, open a PR, and comment `PR: <url>` on
+   the issue.
 7. CI green → CHANGELOG.md entry under `[Unreleased]`, commit, push;
    CI runs again.
 8. Merge the PR once the latest commit is green.
