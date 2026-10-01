@@ -3,12 +3,22 @@
 from pathlib import Path
 from typing import Any
 
+import pytest
 from conftest import FakeGitHub, FakeLLM
-from pytest_bdd import given, scenarios, then, when
+from pytest_bdd import given, scenario, scenarios, then, when
 
 from cubicle import config, pipeline
 
 scenarios("pipeline.feature")
+
+
+@pytest.mark.xfail(
+  strict=True,
+  reason="core loop lands with build order step 2 (PLAN.md)",
+)
+@scenario("pipeline.feature", "An issue becomes a gated PR")
+def test_an_issue_becomes_a_gated_pr() -> None:
+  """Strict xfail: red until pipeline.run exists (build order step 2)."""
 
 
 @given(
