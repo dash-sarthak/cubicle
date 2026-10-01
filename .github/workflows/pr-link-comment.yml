@@ -15,6 +15,7 @@ jobs:
     steps:
       - env:
           GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
           BODY: ${{ github.event.pull_request.body }}
           URL: ${{ github.event.pull_request.html_url }}
         run: |
