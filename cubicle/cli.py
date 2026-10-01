@@ -27,4 +27,7 @@ def main(
   client = github.GitHubClient(settings.github_pat, args.repo, transport)
   issue = client.get_issue(args.issue)
   print(f"#{issue.number} {issue.title}")
-  sys.exit("cubicle: stopping before spec — build order step 2 (PLAN.md)")
+  sys.exit(
+    "cubicle: stopping before spec — pipeline wiring is build order"
+    " step 4 (PLAN.md)"
+  )

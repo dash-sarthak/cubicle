@@ -1,7 +1,8 @@
 """Fakes standing in for the GitHub and OpenAI services during BDD.
 
-They use the same data shapes as the real services (cubicle.models).
-`_`-prefixed params match the real signatures and are ignored.
+They use the same data shapes as the real services (cubicle.models)
+and mirror the real method signatures. Ignored params carry a leading
+underscore.
 """
 
 from pathlib import Path
@@ -22,13 +23,13 @@ class FakeGitHub:
     self.branches: list[str] = []
     self.prs: list[PRRecord] = []
 
-  def get_issue(self, _repo: str, number: int) -> Issue:
+  def get_issue(self, number: int) -> Issue:
     return self.issues[number]
 
-  def push_branch(self, _repo: str, branch: str) -> None:
+  def push_branch(self, branch: str) -> None:
     self.branches.append(branch)
 
-  def open_pr(self, _repo: str, branch: str, title: str, body: str) -> PRRecord:
+  def open_pr(self, branch: str, title: str, body: str) -> PRRecord:
     record = PRRecord(branch=branch, title=title, body=body)
     self.prs.append(record)
     return record
