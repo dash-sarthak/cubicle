@@ -88,4 +88,4 @@ Config shape: `.env` (GITHUB_PAT, OPENAI_API_KEY) + repo/target arguments on the
 
 ## Status
 
-Scaffold committed. Suite state: config scenario green (thin slice), core-loop scenario strictly xfailed at `pipeline.run` — the intent test for build order step 2. CI gates every PR and push to main.
+Build order step 1 done: config, CLI wiring, issue fetch (GitHubClient over the REST API, response validated into the shared Issue shape; run stops non-zero before spec). Suite: 3 passed, 1 strict xfail (core loop at `pipeline.run` — intent test for step 2). CI gates every PR and push to main; branch protection requires it.

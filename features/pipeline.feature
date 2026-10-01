@@ -7,6 +7,18 @@ Feature: Core loop
     When the config is loaded
     Then the config exposes all three values
 
+  Scenario: An issue is fetched from the GitHub API
+    Given a GitHub API serving issue 42
+    When the issue is fetched
+    Then the issue is validated with its number, title and body
+
+  Scenario: Run fetches the issue and stops before the next stage
+    Given a .env with GITHUB_PAT, OPENAI_API_KEY and CUBICLE_MODEL
+    And a GitHub API serving issue 42
+    When cubicle runs for owner/name issue 42
+    Then the fetched issue is shown
+    And the run stops non-zero naming the stage it stopped before
+
   Scenario: An issue becomes a gated PR
     Given a target repo with issue 42
     And fake OpenAI and GitHub services

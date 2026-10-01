@@ -3,11 +3,14 @@
 from pathlib import Path
 from typing import Any
 
+import httpx
 import pytest
 from conftest import FakeGitHub, FakeLLM
 from pytest_bdd import given, scenario, scenarios, then, when
 
-from cubicle import config, pipeline
+from cubicle import cli, config, pipeline
+from cubicle.github import GitHubClient
+from cubicle.models import Issue
 
 scenarios("pipeline.feature")
 
@@ -43,6 +46,51 @@ def config_exposes_values(loaded_config: config.Config) -> None:
   assert loaded_config.github_pat == "ghp_test"
   assert loaded_config.openai_api_key == "sk-test"
   assert loaded_config.model == "gpt-test"
+
+
+@given("a GitHub API serving issue 42", target_fixture="api")
+def api_serving_issue_42(github_api: httpx.MockTransport) -> httpx.MockTransport:
+  return github_api
+
+
+@when("the issue is fetched", target_fixture="fetched_issue")
+def issue_fetched(api: httpx.MockTransport) -> Issue:
+  client = GitHubClient(pat="ghp_test", repo="owner/name", transport=api)
+  return client.get_issue(42)
+
+
+@then("the issue is validated with its number, title and body")
+def issue_is_validated(fetched_issue: Issue) -> None:
+  assert fetched_issue == Issue(
+    number=42, title="Add greeting", body="Print a greeting."
+  )
+
+
+@when(
+  "cubicle runs for owner/name issue 42", target_fixture="cli_run"
+)
+def cli_runs(
+  api: httpx.MockTransport,
+  env_file: Path,
+  monkeypatch: pytest.MonkeyPatch,
+  capsys: pytest.CaptureFixture[str],
+) -> tuple[object, str]:
+  monkeypatch.chdir(env_file.parent)
+  with pytest.raises(SystemExit) as stopped:
+    cli.main(["run", "--repo", "owner/name", "--issue", "42"], transport=api)
+  return stopped.value.code, capsys.readouterr().out
+
+
+@then("the fetched issue is shown")
+def fetched_issue_shown(cli_run: tuple[object, str]) -> None:
+  assert "#42 Add greeting" in cli_run[1]
+
+
+@then("the run stops non-zero naming the stage it stopped before")
+def run_stops_non_zero(cli_run: tuple[object, str]) -> None:
+  code = cli_run[0]
+  assert code != 0
+  assert "spec" in str(code)
 
 
 @given("a target repo with issue 42", target_fixture="target_repo")

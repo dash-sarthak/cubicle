@@ -15,7 +15,7 @@ procedure in the same commit that changes what it does.
    `CUBICLE_MODEL` defaults to `gpt-4.1`.
 
 Verify: `make check` — expect everything green, ending
-`1 passed, 1 xfailed`; the xfail is the core-loop scenario, red by
+`3 passed, 1 xfailed`; the xfail is the core-loop scenario, red by
 design until build order step 2 (Incident 3.1).
 
 ### 1.2 Run the core loop (issue → PR)
@@ -23,9 +23,11 @@ design until build order step 2 (Incident 3.1).
 1. Complete 1.1 first.
 2. `uv run cubicle run --repo owner/name --issue 42`
 
-Expected today: `NotImplementedError: cli wiring: build order step 1` —
-the CLI parses args but the pipeline is not wired (build order step 1,
-`PLAN.md`). Rewrite this procedure when `run` executes.
+Expected today: prints `#<n> <title>`, then stops non-zero with
+`stopping before spec — build order step 2`. The fetch stage is real
+(PAT auth, response validated into the shared Issue shape); spec,
+implement, test, and ship are not built. Real-repo proof lands with
+dogfooding (build order step 5).
 
 ### 1.3 Ship a work item
 

@@ -6,6 +6,7 @@ They use the same data shapes as the real services (cubicle.models).
 
 from pathlib import Path
 
+import httpx
 import pytest
 
 from cubicle.models import Issue, PRRecord, Spec
@@ -56,3 +57,25 @@ def fake_github() -> FakeGitHub:
 @pytest.fixture
 def fake_llm() -> FakeLLM:
   return FakeLLM()
+
+
+@pytest.fixture
+def github_api() -> httpx.MockTransport:
+  """Fake GitHub REST API: PAT-checked, serves issue 42 for owner/name."""
+
+  def handler(request: httpx.Request) -> httpx.Response:
+    if request.headers.get("authorization") != "Bearer ghp_test":
+      return httpx.Response(401)
+    if request.url.path == "/repos/owner/name/issues/42":
+      return httpx.Response(
+        200,
+        json={
+          "number": 42,
+          "title": "Add greeting",
+          "body": "Print a greeting.",
+          "state": "open",
+        },
+      )
+    return httpx.Response(404)
+
+  return httpx.MockTransport(handler)
