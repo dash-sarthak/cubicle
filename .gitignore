@@ -7,3 +7,4 @@ __pycache__/
 .cubicle/
 dist/
 STATE.md
+.pr-body.md
