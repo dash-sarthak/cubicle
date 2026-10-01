@@ -1,0 +1,112 @@
+# Runbook
+
+Step-by-step procedures for routine operations, maintenance tasks, and
+incident resolution on Cubicle. Every procedure ends with a verification
+step; if verification fails, go to the matching incident in §3. Update a
+procedure in the same commit that changes what it does.
+
+## 1. Routine operations
+
+### 1.1 Provision a workstation
+
+1. `uv sync`
+2. `cp .env.example .env`
+3. Edit `.env`: set `GITHUB_PAT` and `OPENAI_API_KEY` to real values.
+   `CUBICLE_MODEL` defaults to `gpt-4.1`.
+
+Verify: `make check` — expect lint and type to pass, tests to end
+`1 failed, 1 passed` (the recorded red, Incident 3.1).
+
+### 1.2 Run the core loop (issue → PR)
+
+1. Complete 1.1 first.
+2. `uv run cubicle run --repo owner/name --issue 42`
+
+Expected today: `NotImplementedError: cli wiring: build order step 1` —
+the CLI parses args but the pipeline is not wired (build order step 1,
+`PLAN.md`). Rewrite this procedure when `run` executes.
+
+### 1.3 Ship a work item
+
+Rules in `AGENT.md` → Workflow. Sequence:
+
+1. Multi-commit work → GitHub issue first (states the outcome, never the
+   code change). One-commit task → skip this step.
+2. `git checkout -b <type>/<issue-number-or-slug>` — type is `feature`,
+   `bug`, `improvement`, or `infra`.
+3. Write the failing test or scenario (red first — PLAN.md paradigm).
+4. Change until `make check` matches the recorded baseline or better.
+5. Commit: `gh-<issue_number>: <what changed>`; issueless:
+   `<type>: <what changed>`.
+6. `git push -u origin <branch>` and open a PR.
+7. CI green → CHANGELOG.md entry under `[Unreleased]`, commit, push;
+   CI runs again.
+8. Merge the PR once the latest commit is green.
+9. `git checkout main && git pull && git branch -d <branch>` and delete
+   the remote branch.
+
+Verify: PR merged, branch gone on both ends, `make check` on main
+matches the recorded baseline.
+
+## 2. Maintenance tasks
+
+### 2.1 Reformat and autofix lint
+
+1. `make fmt`
+
+Verify: output ends `All checks passed!`; `git status` shows only the
+files you intended to touch.
+
+### 2.2 Update dependencies
+
+1. `uv lock --upgrade`
+2. `make check`
+
+Verify: `make check` result matches the recorded baseline (Incident 3.1).
+If a gate breaks, revert with `git checkout uv.lock` and upgrade
+selectively.
+
+### 2.3 Record a decision or status change
+
+1. Edit `PLAN.md` (decisions, status) — not this file.
+2. Add a `CHANGELOG.md` entry under `[Unreleased]`.
+
+Verify: `grep -n` finds the new line in both files.
+
+## 3. Incident resolution
+
+Format: symptom → diagnose → resolve.
+
+### 3.1 `make check` fails on tests
+
+- Symptom: `1 failed, 1 passed`, failing test
+  `test_an_issue_becomes_a_gated_pr`.
+- Diagnose: this is the recorded intentional red (`PLAN.md` → Status:
+  core-loop scenario red at `pipeline.run`). Any *other* failure is a
+  regression.
+- Resolve: recorded red → no action; regression → fix before commit.
+
+### 3.2 `make check` fails on lint
+
+- Symptom: `make lint` exits nonzero with ruff findings.
+- Diagnose: read the findings; if they describe formatting only, run 2.1.
+- Resolve: `make fmt`, review the diff, re-run `make check`.
+
+### 3.3 `make check` fails on types
+
+- Symptom: `make type` (mypy strict) exits nonzero.
+- Diagnose: the output names file, line, and missing annotation.
+- Resolve: add the annotation; no `# type: ignore` without a comment
+  naming why.
+
+### 3.4 `cubicle run` raises `NotImplementedError`
+
+- Symptom: `NotImplementedError: cli wiring: build order step 1`.
+- Diagnose: expected until build order step 1 lands (`PLAN.md`).
+- Resolve: none. Do not "fix" by implementing the pipeline inside an
+  incident; wire it as planned work.
+
+### 3.5 New incident
+
+Any failure that costs more than a minute to diagnose gets a section
+here: symptom → diagnose → resolve, three bullets each.
