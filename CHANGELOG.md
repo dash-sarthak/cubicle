@@ -7,6 +7,7 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Changed
 
+- AGENT.md renamed to AGENTS.md; file header and RUNBOOK.md §1.3 reference updated (one-commit task, no issue).
 - README converted from Org to Markdown; status section now states the build state (#6).
 
 - Conventions pass: pydantic everywhere (shared models `Issue`/`Spec`/`PRRecord` in `cubicle/models.py`; `Config` with env aliases + blank rejection), 80-column lines, banner comments removed, never-nester rule recorded in AGENT.md.

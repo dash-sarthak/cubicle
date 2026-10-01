@@ -31,7 +31,7 @@ dogfooding (build order step 5).
 
 ### 1.3 Ship a work item
 
-Rules in `AGENT.md` → Workflow. Sequence:
+Rules in `AGENTS.md` → Workflow. Sequence:
 
 1. Multi-commit work → GitHub issue first (states the outcome, never the
    code change). One-commit task → skip this step.
