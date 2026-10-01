@@ -4,7 +4,7 @@ Instructions for coding agents working in this repo.
 
 ## Project
 
-Cubicle — an agent orchestration platform (AMS). Teams bring LLM keys; Cubicle runs the SDLC behind tiered human gates. See `README.org` for the thesis and `PLAN.md` for current scope.
+Cubicle — an agent orchestration platform (AMS). Teams bring LLM keys; Cubicle runs the SDLC behind tiered human gates. See `README.md` for the thesis and `PLAN.md` for current scope.
 
 ## Ground rules
 
