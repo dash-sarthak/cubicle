@@ -14,9 +14,8 @@ procedure in the same commit that changes what it does.
 3. Edit `.env`: set `GITHUB_PAT` and `OPENAI_API_KEY` to real values.
    `CUBICLE_MODEL` defaults to `gpt-4.1`.
 
-Verify: `make check` — expect everything green, ending
-`3 passed, 1 xfailed`; the xfail is the core-loop scenario, red by
-design until build order step 2 (Incident 3.1).
+Verify: `make check` — expect everything green, ending `7 passed`
+(the recorded baseline, Incident 3.1).
 
 ### 1.2 Run the core loop (issue → PR)
 
@@ -24,10 +23,10 @@ design until build order step 2 (Incident 3.1).
 2. `uv run cubicle run --repo owner/name --issue 42`
 
 Expected today: prints `#<n> <title>`, then stops non-zero with
-`stopping before spec — build order step 2`. The fetch stage is real
-(PAT auth, response validated into the shared Issue shape); spec,
-implement, test, and ship are not built. Real-repo proof lands with
-dogfooding (build order step 5).
+`stopping before spec — pipeline wiring is build order step 4`. The
+stages (spec, implement, test, ship) already compose in
+`pipeline.run` behind service interfaces; real CLI wiring lands with
+build order step 4, real-repo proof with dogfooding (step 5).
 
 ### 1.3 Ship a work item
 
@@ -85,15 +84,12 @@ Verify: `grep -n` finds the new line in both files.
 
 Format: symptom → diagnose → resolve.
 
-### 3.1 Suite state vs the strict xfail
+### 3.1 Suite state vs the recorded baseline
 
-- Symptom: `1 passed, 1 xfailed` — that is the recorded baseline; no
-  action.
-- Symptom: suite fails with `XPASS(strict)` — `pipeline.run` started
-  passing. Remove the xfail marker as part of build order step 2's own
-  work item, never in a drive-by.
-- Symptom: `1 failed` — regression or a stripped marker; fix before
-  commit.
+- Symptom: `7 passed` — that is the recorded baseline; no action.
+- Symptom: a failure or error — regression; fix before commit.
+- Symptom: a different pass count with everything green — a test was
+  added or removed; re-record the baseline here in the same commit.
 
 ### 3.2 `make check` fails on lint
 

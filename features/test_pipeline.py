@@ -15,13 +15,9 @@ from cubicle.models import Issue
 scenarios("pipeline.feature")
 
 
-@pytest.mark.xfail(
-  strict=True,
-  reason="core loop lands with build order step 2 (PLAN.md)",
-)
 @scenario("pipeline.feature", "An issue becomes a gated PR")
 def test_an_issue_becomes_a_gated_pr() -> None:
-  """Strict xfail: red until pipeline.run exists (build order step 2)."""
+  """The core loop: issue in, gated PR out."""
 
 
 @given(

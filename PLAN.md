@@ -88,4 +88,11 @@ Config shape: `.env` (GITHUB_PAT, OPENAI_API_KEY) + repo/target arguments on the
 
 ## Status
 
-Build order step 1 done: config, CLI wiring, issue fetch (GitHubClient over the REST API, response validated into the shared Issue shape; run stops non-zero before spec). Suite: 3 passed, 1 strict xfail (core loop at `pipeline.run` — intent test for step 2). CI gates every PR and push to main; branch protection requires it.
+Build order step 2 done: `llm.py` OpenAI tool loop (read/write/list
+file tools confined to the target repo, capped at 30 iterations,
+per-run usage accounting) and `pipeline.run` composing spec →
+implement → test → ship behind the service interfaces; the test suite
+runs on host until the sandbox swap (step 3). Suite: 7 passed.
+`cubicle run` still stops before spec — CLI wiring plus real push/PR
+assembly is step 4. CI gates every PR and push to main; branch
+protection requires it.
