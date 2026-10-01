@@ -14,8 +14,9 @@ procedure in the same commit that changes what it does.
 3. Edit `.env`: set `GITHUB_PAT` and `OPENAI_API_KEY` to real values.
    `CUBICLE_MODEL` defaults to `gpt-4.1`.
 
-Verify: `make check` — expect lint and type to pass, tests to end
-`1 failed, 1 passed` (the recorded red, Incident 3.1).
+Verify: `make check` — expect everything green, ending
+`1 passed, 1 xfailed`; the xfail is the core-loop scenario, red by
+design until build order step 2 (Incident 3.1).
 
 ### 1.2 Run the core loop (issue → PR)
 
@@ -77,14 +78,15 @@ Verify: `grep -n` finds the new line in both files.
 
 Format: symptom → diagnose → resolve.
 
-### 3.1 `make check` fails on tests
+### 3.1 Suite state vs the strict xfail
 
-- Symptom: `1 failed, 1 passed`, failing test
-  `test_an_issue_becomes_a_gated_pr`.
-- Diagnose: this is the recorded intentional red (`PLAN.md` → Status:
-  core-loop scenario red at `pipeline.run`). Any *other* failure is a
-  regression.
-- Resolve: recorded red → no action; regression → fix before commit.
+- Symptom: `1 passed, 1 xfailed` — that is the recorded baseline; no
+  action.
+- Symptom: suite fails with `XPASS(strict)` — `pipeline.run` started
+  passing. Remove the xfail marker as part of build order step 2's own
+  work item, never in a drive-by.
+- Symptom: `1 failed` — regression or a stripped marker; fix before
+  commit.
 
 ### 3.2 `make check` fails on lint
 
