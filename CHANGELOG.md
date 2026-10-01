@@ -14,6 +14,7 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Added
 
+- CI gate: GitHub Actions runs `make check` (ruff, mypy strict, pytest, Python 3.12 floor) on every PR and push to main; actions pinned to commit SHAs (#2). Core-loop scenario strictly xfailed until build order step 2 lands.
 - Dev workflow rules (AGENT.md) and ship-a-work-item procedure (RUNBOOK.md §1.3); STATE.md for intermediate session state (gitignored).
 - Project scaffold: uv-managed `cubicle` package with module stubs per PLAN.md (cli, config, github, llm, sandbox, pipeline).
 - BDD harness (pytest-bdd 9): config scenario green; core-loop scenario red at `pipeline.run` as the intent test for build order step 2.

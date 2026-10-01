@@ -88,4 +88,4 @@ Config shape: `.env` (GITHUB_PAT, OPENAI_API_KEY) + repo/target arguments on the
 
 ## Status
 
-Scaffold committed. Suite state: config scenario green (thin slice), core-loop scenario red at `pipeline.run` — the intent test for build order step 2.
+Scaffold committed. Suite state: config scenario green (thin slice), core-loop scenario strictly xfailed at `pipeline.run` — the intent test for build order step 2. CI gates every PR and push to main.
