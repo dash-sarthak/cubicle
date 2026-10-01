@@ -17,6 +17,7 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Added
 
+- Loop tooling: `scripts/ship-pr.sh` (push, open PR, watch CI) and `scripts/merge-pr.sh` (merge, delete branch, sync main) — canonical one-shot forms of RUNBOOK §1.3 steps 6–9; `.pr-body.md` gitignored for custom PR bodies (#14).
 - Issue/PR automation: native issue template (blank issues disabled); workflows post the solution-template comment on new issues and the `PR: <url>` link on referenced issues; manual posting of both retired (#11).
 - Issue discipline: solution-template comment (`.github/issue-solution-template.md`) is the first actionable on every issue; raising a PR posts a `PR: <url>` comment on the issue; PR links backfilled on #2/#4/#6 (#9).
 - Issue fetch: `GitHubClient.get_issue` (httpx + PAT, response validated into the shared `Issue` shape at the boundary); `cubicle run` loads `.env`, fetches, shows the issue, stops non-zero naming the next stage (#4). Build order step 1 complete.
