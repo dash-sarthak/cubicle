@@ -45,12 +45,13 @@ Rules in `AGENTS.md` → Workflow. Sequence:
 5. Commit: `gh-<issue_number>: <what changed>`; issueless:
    `<type>: <what changed>`.
 6. `git push -u origin <branch>` and open a PR — the `PR: <url>` comment
-   on the issue posts automatically.
+   on the issue posts automatically. One shot: `scripts/ship-pr.sh
+   <branch> <title> [body-file]`.
 7. CI green → CHANGELOG.md entry under `[Unreleased]`, commit, push;
    CI runs again.
 8. Merge the PR once the latest commit is green.
 9. `git checkout main && git pull && git branch -d <branch>` and delete
-   the remote branch.
+   the remote branch — or one shot: `scripts/merge-pr.sh <branch>`.
 
 Verify: PR merged, branch gone on both ends, `make check` on main
 matches the recorded baseline.
