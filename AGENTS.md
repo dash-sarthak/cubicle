@@ -19,11 +19,11 @@ Cubicle — an agent orchestration platform (AMS). Teams bring LLM keys; Cubicle
 
 Every work item ships through the same loop (command procedure: `RUNBOOK.md` §1.3):
 
-- Multi-commit work needs a GitHub issue first. An issue describes the work needed — the outcome or business requirement — never the code change. One-commit tasks get no issue.
+- Multi-commit work needs a GitHub issue first. An issue describes the work needed — the outcome or business requirement — never the code change. One-commit tasks get no issue. First actionable on every issue: comment the solution template — `.github/issue-solution-template.md` — every header kept, N/A where not applicable.
 - Branch per work item, even single commits: `feature|bug|improvement|infra/<issue_number>`; issueless tasks use `type/slug` (e.g. `improvement/runbook`).
 - Tests come before changes: BDD red scenario first (see PLAN.md paradigm).
 - Commit messages: `gh-<issue_number>: <what changed>`; issueless: `<type>: <what changed>`.
-- CI on GitHub gates the PR; after green, the CHANGELOG.md entry lands on the branch, then merge to main and delete the branch.
+- Raising the PR posts a `PR: <url>` comment on the issue. CI on GitHub gates the PR; after green, the CHANGELOG.md entry lands on the branch, then merge to main and delete the branch.
 - Intermediate session state lives in `STATE.md` (repo root, gitignored, never committed).
 
 ## Conventions
