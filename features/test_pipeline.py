@@ -49,7 +49,9 @@ def config_exposes_values(loaded_config: config.Config) -> None:
 
 
 @given("a GitHub API serving issue 42", target_fixture="api")
-def api_serving_issue_42(github_api: httpx.MockTransport) -> httpx.MockTransport:
+def api_serving_issue_42(
+  github_api: httpx.MockTransport,
+) -> httpx.MockTransport:
   return github_api
 
 
@@ -66,9 +68,7 @@ def issue_is_validated(fetched_issue: Issue) -> None:
   )
 
 
-@when(
-  "cubicle runs for owner/name issue 42", target_fixture="cli_run"
-)
+@when("cubicle runs for owner/name issue 42", target_fixture="cli_run")
 def cli_runs(
   api: httpx.MockTransport,
   env_file: Path,
