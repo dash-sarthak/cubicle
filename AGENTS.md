@@ -1,4 +1,4 @@
-# AGENT.md
+# AGENTS.md
 
 Instructions for coding agents working in this repo.
 
